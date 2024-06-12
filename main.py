@@ -45,7 +45,7 @@ class TelloDrone:
 
         img = cv2.flip(img, 0)
         img = img[350:, :]
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         lower_blue = np.array([90, 110, 110])
@@ -151,25 +151,23 @@ class TelloDrone:
             if self.order == "go_right":
                 self.drone.send_rc_control(15, 0, 0, 0)
             if self.order == "go_left":
-                self.drone.send_rc_control(-15, 0, 0, 15)
+                self.drone.send_rc_control(-15, 0, 0, 0)
             if self.order == "go_straight":
                 self.drone.send_rc_control(0, 15, 0, 0)
 
             if self.order == "ccw":
-                self.drone.send_rc_control(0, 15, 0, 0)
                 time.sleep(1)
                 self.drone.rotate_counter_clockwise(90)
-                time.sleep(0.5)
-                self.drone.send_rc_control(0, 15, 0, 0)
-                time.sleep(2)
+                for i in range(1, 41):
+                    self.drone.send_rc_control(0, 15, 0, 0)
+                    time.sleep(0.1)
 
             if self.order == "cw":
-                self.drone.send_rc_control(0, 15, 0, 0)
                 time.sleep(1)
                 self.drone.rotate_clockwise(90)
-                time.sleep(0.5)
-                self.drone.send_rc_control(0, 15, 0, 0)
-                time.sleep(2)
+                for i in range(1, 41):
+                    self.drone.send_rc_control(0, 15, 0, 0)
+                    time.sleep(0.1)
 
     def main(self):
         self.drone.takeoff()
