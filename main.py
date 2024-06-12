@@ -45,7 +45,6 @@ class TelloDrone:
 
         img = cv2.flip(img, 0)
         img = img[350:, :]
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         lower_blue = np.array([90, 110, 110])
@@ -83,17 +82,13 @@ class TelloDrone:
             angle_degree = np.degrees(angle)
             cen_x = lowest_y[0]
 
-
-            # Rotate only on lines below half of screen
             if -5 > angle_degree:
                 print("rotate_right")
                 self.order = "rotate_right"
-
             elif 5 < angle_degree:
                 print("rotate_left")
                 self.order = "rotate_left"
             else:
-                # print("stop_rotate")
                 if cen_x <= 410:
                     print("go left")
                     self.order = "go_left"
@@ -106,19 +101,17 @@ class TelloDrone:
 
             # print(abs(angle_degree))
             if abs(angle_degree) > 70:
-                # if lowest_y[3] > (720 - 350) / 2:
-
+                
                 if (lowest_y[0] + lowest_y[2]) / 2 < 480:
                     print("ccw")
                     self.order = "ccw"
-
+                    
                 else:
                     print("cw")
                     self.order = "cw"
 
 
         else:
-            # print(f"no lines")
             self.order = "hover"
             current = time.time()
             if self.time_lost_line is None:
